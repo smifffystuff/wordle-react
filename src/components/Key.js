@@ -1,6 +1,12 @@
+import { useContext } from 'react'
+
+import WotwordContext from '../context/wotword-context'
+
 const Key = ({ letter }) => {
+  const { keyPressed } = useContext(WotwordContext)
+
   const onPressed = () => {
-    console.log(`Key ${letter} pressed`)
+    keyPressed(letter)
   }
 
   return (

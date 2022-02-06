@@ -2,11 +2,11 @@ import './App.css'
 import GameArea from './components/GameArea'
 import Header from './components/Header'
 import Keyboard from './components/Keyboard'
-import WordleContext from './context/wordle-context'
+import { WotwordContextProvider } from './context/wotword-context'
 
 function App() {
   return (
-    <WordleContext.Provider value={{ wordle: 'SUPER' }}>
+    <WotwordContextProvider>
       <div className='App'>
         <div className='game-container'>
           <Header />
@@ -14,7 +14,7 @@ function App() {
           <Keyboard />
         </div>
       </div>
-    </WordleContext.Provider>
+    </WotwordContextProvider>
   )
 }
 
