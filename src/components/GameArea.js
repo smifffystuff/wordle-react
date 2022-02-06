@@ -1,8 +1,8 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import GuessRow from './GuessRow'
 
 const GameArea = () => {
-  const [turn, setTurn] = useState(1)
+  // const [turn, setTurn] = useState(1)
 
   return (
     <div className='game-area'>
