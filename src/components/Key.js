@@ -1,5 +1,5 @@
 const Key = ({ letter }) => {
-  return <div className='key'>{letter}</div>
+  return <button className='key'>{letter}</button>
 }
 
 export default Key
