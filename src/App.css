@@ -1,11 +1,3 @@
-.game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* width: 70vw; */
-  margin: 0 auto;
-}
-
 .title {
   margin-top: 1vh;
   margin-bottom: 2vh;
@@ -14,30 +6,27 @@
 }
 
 .game-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-}
-
-.guess-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  display: grid;
   justify-content: center;
+  align-content: center;
+  flex-grow: 1;
+  grid-template-columns: repeat(5, 4em);
+  grid-template-rows: repeat(6, 4em);
+  gap: 0.25em;
+  margin-bottom: 1em;
 }
 
 .guess-cell {
+  font-size: 2em;
+  color: white;
+  border: 0.05em solid hsl(240, 2%, 23%);
+  text-transform: uppercase;
+  font-weight: bold;
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 12vw;
-  height: 12vw;
-  border: 1px solid black;
-  border-radius: 0.5vmax;
-  margin-bottom: 3vmax;
-  margin-right: 0.5vmax;
-  font-size: 8vw;
+  align-items: center;
+  user-select: none;
+  transition: transform 250ms linear;
 }
 
 .guess-cell.grey {
@@ -72,12 +61,13 @@
 }
 
 .keyboard {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 90vw;
-  align-items: start;
+  display: grid;
+  grid-template-columns: repeat(20, minmax(auto, 1.25em));
+  grid-auto-rows: 3em;
+  gap: 0.25em;
+  justify-content: center;
 }
+
 .special-keys {
   display: flex;
   flex-direction: row;
@@ -86,21 +76,36 @@
 }
 
 .key {
-  background-color: #fff;
-  border: 1px solid black;
-  color: #000;
-  border-radius: 4px;
+  font-size: inherit;
+  grid-column: span 2;
+  border: none;
+  padding: 0;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
-  width: 10vw;
-  height: 10vw;
-  margin: 0.5vw;
-  font-size: 7vw;
+  align-items: center;
+  background-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
+  );
+  color: white;
+  fill: white;
+  text-transform: uppercase;
+  border-radius: 0.25em;
+  cursor: pointer;
+  user-select: none;
 }
 
-.special-keys .key {
-  width: auto;
-  padding: 1vw;
+.key.large {
+  grid-column: span 3;
+}
+
+.key > svg {
+  width: 1.75em;
+  height: 1.75em;
+}
+
+.key:hover,
+.key:focus {
+  --lightness-offset: 10%;
 }
