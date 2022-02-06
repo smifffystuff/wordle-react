@@ -40,6 +40,37 @@
   font-size: 8vw;
 }
 
+.guess-cell.grey {
+  background-color: rgb(71, 71, 68);
+  color: #fff;
+}
+
+.guess-cell.yellow {
+  background-color: rgb(184, 194, 40);
+  color: #fff;
+}
+
+.guess-cell.green {
+  background-color: rgb(11, 141, 22);
+  color: #fff;
+}
+
+.guess-cell.flip {
+  animation: 0.5s linear flipping;
+}
+
+@keyframes flipping {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
 .keyboard {
   display: flex;
   flex-direction: row;

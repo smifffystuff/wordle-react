@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react'
 
 const initialState = {
-  wotword: 'SUPER',
+  wotword: 'SHEEN',
   guesses: [
     [
       { guess: '', state: 0 },
@@ -68,20 +68,49 @@ export const WotwordContextProvider = ({ children }) => {
       return
     }
 
+    let curGuess = guesses[currentGuess - 1]
     if (key === 'SUBMIT' && currentCell === 6) {
-      const wordSubmitted = guesses[currentGuess - 1]
-        .map((c) => c.guess)
-        .join('')
+      const wordSubmitted = curGuess.map((c) => c.guess).join('')
       console.log('Check guess', wordSubmitted)
-      setCurrentCell(1)
-      setCurrentGuess((prev) => prev + 1)
       setMessage('Checking submission')
 
       if (wordSubmitted == wotword) {
+        curGuess.forEach((cell, index) => {
+          setTimeout(() => {
+            cell.state = 3
+            setGuesses((prev, index) =>
+              prev.map((row, index) =>
+                index !== currentGuess - 1 ? row : curGuess
+              )
+            )
+          }, 400 * index)
+        })
         setMessage('Congratulations!!!')
+      } else {
+        let checkWotword = wotword
+        curGuess.forEach((cell, index) => {
+          setTimeout(() => {
+            if (cell.guess === wotword[index]) {
+              cell.state = 3
+            } else if (checkWotword.includes(cell.guess)) {
+              cell.state = 2
+            } else {
+              cell.state = 1
+            }
+            checkWotword = checkWotword.replace(cell.guess, '')
+            console.log(checkWotword)
+            setGuesses((prev, index) =>
+              prev.map((row, index) =>
+                index !== currentGuess - 1 ? row : curGuess
+              )
+            )
+          }, 400 * index)
+        })
       }
 
       setTimeout(() => setMessage(''), 2000)
+      setCurrentCell(1)
+      setCurrentGuess((prev) => prev + 1)
       return
     }
 
