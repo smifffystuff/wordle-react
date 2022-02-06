@@ -2,16 +2,19 @@ import './App.css'
 import GameArea from './components/GameArea'
 import Header from './components/Header'
 import Keyboard from './components/Keyboard'
+import WordleContext from './context/wordle-context'
 
 function App() {
   return (
-    <div className='App'>
-      <div className='game-container'>
-        <Header />
-        <GameArea />
-        <Keyboard />
+    <WordleContext.Provider value={{ wordle: 'SUPER' }}>
+      <div className='App'>
+        <div className='game-container'>
+          <Header />
+          <GameArea />
+          <Keyboard />
+        </div>
       </div>
-    </div>
+    </WordleContext.Provider>
   )
 }
 

@@ -1,5 +1,13 @@
 const Key = ({ letter }) => {
-  return <button className='key'>{letter}</button>
+  const onPressed = () => {
+    console.log(`Key ${letter} pressed`)
+  }
+
+  return (
+    <button className='key' onClick={onPressed}>
+      {letter}
+    </button>
+  )
 }
 
 export default Key

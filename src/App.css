@@ -57,6 +57,7 @@
 .key {
   background-color: #fff;
   border: 1px solid black;
+  color: #000;
   border-radius: 4px;
   display: flex;
   flex-direction: row;
