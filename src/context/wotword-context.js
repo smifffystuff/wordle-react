@@ -61,13 +61,20 @@ const initialState = {
 const WotwordContext = createContext(initialState)
 
 export const WotwordContextProvider = ({children}) => {
-  const [wotword] = useState(initialState.wotword)
+  const [wotword, setWotword] = useState(initialState.wotword)
   const [guesses, setGuesses] = useState(initialState.guesses)
   const [currentGuess, setCurrentGuess] = useState(initialState.currentGuess)
   const [currentCell, setCurrentCell] = useState(initialState.currentCell)
   const [message, setMessage] = useState(initialState.message)
+  const [gameOn, setGameOn] = useState(true)
 
+  // useEffect(() => {
+  //   setWotword('elder')
+  // }, [])
   const keyPressed = key => {
+    if (!gameOn || currentGuess > 6) {
+      return
+    }
     if (
       (currentCell > 5 && key !== 'SUBMIT' && key !== 'DELETE') ||
       (currentCell < 6 && key === 'SUBMIT')
@@ -75,9 +82,10 @@ export const WotwordContextProvider = ({children}) => {
       return
     }
 
-    let curGuess = guesses[currentGuess - 1]
     if (key === 'SUBMIT' && currentCell === 6) {
-      const wordSubmitted = curGuess
+      let curGuess = JSON.parse(JSON.stringify(guesses[currentGuess - 1]))
+      let checkGuess = JSON.parse(JSON.stringify(curGuess))
+      const wordSubmitted = checkGuess
         .map(c => c.guess)
         .join('')
         .toLowerCase()
@@ -87,46 +95,68 @@ export const WotwordContextProvider = ({children}) => {
         setTimeout(() => setMessage(''), 2000)
         return
       }
-      console.log('Check guess', wordSubmitted)
-      setMessage('Checking submission')
 
       if (wordSubmitted === wotword) {
-        curGuess.forEach((cell, index) => {
-          setTimeout(() => {
-            cell.state = 3
-            setGuesses((prev, index) =>
-              prev.map((row, index) =>
-                index !== currentGuess - 1 ? row : curGuess
-              )
-            )
-          }, 400 * index)
+        checkGuess.forEach(cell => {
+          cell.state = 3
         })
         setMessage('Congratulations!!!')
+        setGameOn(false)
       } else {
         let checkWotword = wotword
-        curGuess.forEach((cell, index) => {
-          setTimeout(() => {
-            if (cell.guess.toLowerCase() === wotword[index]) {
-              cell.state = 3
-            } else if (checkWotword.includes(cell.guess.toLowerCase())) {
-              cell.state = 2
-            } else {
-              cell.state = 1
+          .split('')
+          .map(letter => ({letter, checked: false}))
+        checkGuess.forEach((guess, index) => {
+          if (guess.guess.toLowerCase() === checkWotword[index].letter) {
+            guess.state = 3
+            checkWotword[index].checked = true
+          }
+        })
+        //Now check if exists BUT not checked already
+        checkGuess.forEach((guess, index) => {
+          if (guess.state !== 0) {
+            return
+          }
+          const foundIndex = checkWotword.findIndex(g => {
+            if (g.checked) {
+              return false
             }
-            checkWotword = checkWotword.replace(cell.guess.toLowerCase(), '')
-            console.log(checkWotword)
-            setGuesses((prev, index) =>
-              prev.map((row, index) =>
-                index !== currentGuess - 1 ? row : curGuess
-              )
-            )
-          }, 400 * index)
+            return g.letter === guess.guess.toLowerCase()
+          })
+          if (foundIndex >= 0) {
+            guess.state = 2
+          } else if (guess.state === 0) {
+            guess.state = 1
+          }
         })
       }
+      checkGuess.forEach((cell, index) => {
+        setTimeout(() => {
+          curGuess[index] = {...cell}
+          setGuesses(prev => {
+            prev.map((row, index) =>
+              index !== currentGuess - 1
+                ? row
+                : row.map((cell, index) =>
+                    index !== currentCell - 1
+                      ? cell
+                      : {...cell, state: cell.state}
+                  )
+            )
+            prev[currentGuess - 1] = [...curGuess]
+            return [...prev]
+          })
+        }, 400 * index)
+      })
 
-      setTimeout(() => setMessage(''), 2000)
+      if (currentGuess == 6 && gameOn) {
+        setMessage(`You failed to guess ${wotword}`)
+        setGameOn(false)
+      }
+      setTimeout(() => setMessage(''), 5000)
       setCurrentCell(1)
       setCurrentGuess(prev => prev + 1)
+
       return
     }
 

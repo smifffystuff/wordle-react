@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react'
+import {useContext, useEffect, useState} from 'react'
 import WotwordContext from '../context/wotword-context'
 
-const GuessCell = ({ rowId, cellId }) => {
-  const { guesses } = useContext(WotwordContext)
+const GuessCell = ({rowId, cellId}) => {
+  const {guesses} = useContext(WotwordContext)
   const [curValue, setCurValue] = useState('')
   const [state, setState] = useState(0)
 
@@ -14,7 +14,7 @@ const GuessCell = ({ rowId, cellId }) => {
   return (
     <div
       className={`guess-cell ${
-        state == 1
+        state === 1
           ? 'grey flip'
           : state === 2
           ? 'yellow flip'

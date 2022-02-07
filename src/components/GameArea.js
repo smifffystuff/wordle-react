@@ -4,8 +4,6 @@ import GuessCell from './GuessCell'
 
 const GameArea = () => {
   const {message, wotword} = useContext(WotwordContext)
-
-  console.log(wotword)
   return (
     <>
       {message !== '' ? <div className="message">{message}</div> : null}
