@@ -7,7 +7,8 @@ const msOffset = Date.now() - offsetFromDate
 const dayOffset = msOffset / 1000 / 60 / 60 / 24
 
 const initialState = {
-  wotword: targetWords[Math.floor(dayOffset)],
+  wotword:
+    targetWords[Math.floor(Math.random() * (targetWords.length - 0 + 1) + 0)],
   guesses: [
     [
       {guess: '', state: 0},
