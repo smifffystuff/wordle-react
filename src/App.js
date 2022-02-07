@@ -8,7 +8,7 @@ function App() {
   return (
     <WotwordContextProvider>
       <Header />
-      <div class="alert-container" data-alert-container></div>
+      <div className="alert-container" data-alert-container></div>
       <GameArea />
       <Keyboard />
     </WotwordContextProvider>

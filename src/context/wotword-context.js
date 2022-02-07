@@ -1,7 +1,13 @@
 import {createContext, useState} from 'react'
 
+import {targetWords, dictionary} from '../data/words'
+
+const offsetFromDate = new Date(2022, 0, 1)
+const msOffset = Date.now() - offsetFromDate
+const dayOffset = msOffset / 1000 / 60 / 60 / 24
+
 const initialState = {
-  wotword: 'SHEEN',
+  wotword: targetWords[Math.floor(dayOffset)],
   guesses: [
     [
       {guess: '', state: 0},
@@ -54,7 +60,7 @@ const initialState = {
 const WotwordContext = createContext(initialState)
 
 export const WotwordContextProvider = ({children}) => {
-  const [wotword, setWotword] = useState(initialState.wotword)
+  const [wotword] = useState(initialState.wotword)
   const [guesses, setGuesses] = useState(initialState.guesses)
   const [currentGuess, setCurrentGuess] = useState(initialState.currentGuess)
   const [currentCell, setCurrentCell] = useState(initialState.currentCell)
@@ -70,11 +76,20 @@ export const WotwordContextProvider = ({children}) => {
 
     let curGuess = guesses[currentGuess - 1]
     if (key === 'SUBMIT' && currentCell === 6) {
-      const wordSubmitted = curGuess.map(c => c.guess).join('')
+      const wordSubmitted = curGuess
+        .map(c => c.guess)
+        .join('')
+        .toLowerCase()
+
+      if (!dictionary.includes(wordSubmitted)) {
+        setMessage('Word Not In List')
+        setTimeout(() => setMessage(''), 2000)
+        return
+      }
       console.log('Check guess', wordSubmitted)
       setMessage('Checking submission')
 
-      if (wordSubmitted == wotword) {
+      if (wordSubmitted === wotword) {
         curGuess.forEach((cell, index) => {
           setTimeout(() => {
             cell.state = 3
@@ -90,14 +105,14 @@ export const WotwordContextProvider = ({children}) => {
         let checkWotword = wotword
         curGuess.forEach((cell, index) => {
           setTimeout(() => {
-            if (cell.guess === wotword[index]) {
+            if (cell.guess.toLowerCase() === wotword[index]) {
               cell.state = 3
-            } else if (checkWotword.includes(cell.guess)) {
+            } else if (checkWotword.includes(cell.guess.toLowerCase())) {
               cell.state = 2
             } else {
               cell.state = 1
             }
-            checkWotword = checkWotword.replace(cell.guess, '')
+            checkWotword = checkWotword.replace(cell.guess.toLowerCase(), '')
             console.log(checkWotword)
             setGuesses((prev, index) =>
               prev.map((row, index) =>

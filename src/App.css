@@ -61,6 +61,11 @@
   animation: 0.5s linear flipping;
 }
 
+.message {
+  margin-top: 1em;
+  color: #fff;
+}
+
 @keyframes flipping {
   0% {
     transform: rotateX(0deg);
