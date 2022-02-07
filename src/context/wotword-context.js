@@ -1,49 +1,49 @@
-import { createContext, useState } from 'react'
+import {createContext, useState} from 'react'
 
 const initialState = {
   wotword: 'SHEEN',
   guesses: [
     [
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
     ],
     [
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
     ],
     [
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
     ],
     [
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
     ],
     [
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
     ],
     [
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
-      { guess: '', state: 0 },
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
+      {guess: '', state: 0},
     ],
   ],
   currentGuess: 1,
@@ -53,14 +53,14 @@ const initialState = {
 
 const WotwordContext = createContext(initialState)
 
-export const WotwordContextProvider = ({ children }) => {
+export const WotwordContextProvider = ({children}) => {
   const [wotword, setWotword] = useState(initialState.wotword)
   const [guesses, setGuesses] = useState(initialState.guesses)
   const [currentGuess, setCurrentGuess] = useState(initialState.currentGuess)
   const [currentCell, setCurrentCell] = useState(initialState.currentCell)
   const [message, setMessage] = useState(initialState.message)
 
-  const keyPressed = (key) => {
+  const keyPressed = key => {
     if (
       (currentCell > 5 && key !== 'SUBMIT' && key !== 'DELETE') ||
       (currentCell < 6 && key === 'SUBMIT')
@@ -70,7 +70,7 @@ export const WotwordContextProvider = ({ children }) => {
 
     let curGuess = guesses[currentGuess - 1]
     if (key === 'SUBMIT' && currentCell === 6) {
-      const wordSubmitted = curGuess.map((c) => c.guess).join('')
+      const wordSubmitted = curGuess.map(c => c.guess).join('')
       console.log('Check guess', wordSubmitted)
       setMessage('Checking submission')
 
@@ -110,7 +110,7 @@ export const WotwordContextProvider = ({ children }) => {
 
       setTimeout(() => setMessage(''), 2000)
       setCurrentCell(1)
-      setCurrentGuess((prev) => prev + 1)
+      setCurrentGuess(prev => prev + 1)
       return
     }
 
@@ -121,11 +121,11 @@ export const WotwordContextProvider = ({ children }) => {
             index !== currentGuess - 1
               ? row
               : row.map((cell, index) =>
-                  index !== currentCell - 2 ? cell : { ...cell, guess: '' }
+                  index !== currentCell - 2 ? cell : {...cell, guess: ''}
                 )
           )
         )
-        setCurrentCell((prev) => prev - 1)
+        setCurrentCell(prev => prev - 1)
       }
       return
     }
@@ -134,11 +134,11 @@ export const WotwordContextProvider = ({ children }) => {
         index !== currentGuess - 1
           ? row
           : row.map((cell, index) =>
-              index !== currentCell - 1 ? cell : { ...cell, guess: key }
+              index !== currentCell - 1 ? cell : {...cell, guess: key}
             )
       )
     )
-    setCurrentCell((prev) => prev + 1)
+    setCurrentCell(prev => prev + 1)
   }
 
   return (
