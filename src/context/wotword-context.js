@@ -175,7 +175,7 @@ export const WotwordContextProvider = ({children}) => {
   const [keyState, setKeyState] = useState(initialState.keyState)
   const [gameOn, setGameOn] = useState(true)
 
-  console.log(wotword)
+  // console.log(wotword)
   // useEffect(() => {
   //   setWotword('elder')
   // }, [])
