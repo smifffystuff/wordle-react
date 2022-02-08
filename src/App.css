@@ -42,17 +42,20 @@
   transition: transform 250ms linear;
 }
 
-.guess-cell.grey {
+.guess-cell.grey,
+.key.grey {
   background-color: rgb(71, 71, 68);
   color: #fff;
 }
 
-.guess-cell.yellow {
+.guess-cell.yellow,
+.key.yellow {
   background-color: rgb(184, 194, 40);
   color: #fff;
 }
 
-.guess-cell.green {
+.guess-cell.green,
+.key.green {
   background-color: rgb(11, 141, 22);
   color: #fff;
 }

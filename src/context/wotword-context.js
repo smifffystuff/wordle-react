@@ -53,6 +53,112 @@ const initialState = {
       {guess: '', state: 0},
     ],
   ],
+  keyState: [
+    {
+      letter: 'A',
+      state: 0,
+    },
+    {
+      letter: 'B',
+      state: 0,
+    },
+    {
+      letter: 'C',
+      state: 0,
+    },
+    {
+      letter: 'D',
+      state: 0,
+    },
+    {
+      letter: 'E',
+      state: 0,
+    },
+    {
+      letter: 'F',
+      state: 0,
+    },
+    {
+      letter: 'G',
+      state: 0,
+    },
+    {
+      letter: 'H',
+      state: 0,
+    },
+    {
+      letter: 'I',
+      state: 0,
+    },
+    {
+      letter: 'J',
+      state: 0,
+    },
+    {
+      letter: 'K',
+      state: 0,
+    },
+    {
+      letter: 'L',
+      state: 0,
+    },
+    {
+      letter: 'M',
+      state: 0,
+    },
+    {
+      letter: 'N',
+      state: 0,
+    },
+    {
+      letter: 'O',
+      state: 0,
+    },
+    {
+      letter: 'P',
+      state: 0,
+    },
+    {
+      letter: 'Q',
+      state: 0,
+    },
+    {
+      letter: 'R',
+      state: 0,
+    },
+    {
+      letter: 'S',
+      state: 0,
+    },
+    {
+      letter: 'T',
+      state: 0,
+    },
+    {
+      letter: 'U',
+      state: 0,
+    },
+    {
+      letter: 'V',
+      state: 0,
+    },
+    {
+      letter: 'W',
+      state: 0,
+    },
+    {
+      letter: 'X',
+      state: 0,
+    },
+    {
+      letter: 'Y',
+      state: 0,
+    },
+    {
+      letter: 'Z',
+      state: 0,
+    },
+  ],
   currentGuess: 1,
   currentCell: 1,
   message: '',
@@ -66,8 +172,10 @@ export const WotwordContextProvider = ({children}) => {
   const [currentGuess, setCurrentGuess] = useState(initialState.currentGuess)
   const [currentCell, setCurrentCell] = useState(initialState.currentCell)
   const [message, setMessage] = useState(initialState.message)
+  const [keyState, setKeyState] = useState(initialState.keyState)
   const [gameOn, setGameOn] = useState(true)
 
+  console.log(wotword)
   // useEffect(() => {
   //   setWotword('elder')
   // }, [])
@@ -133,6 +241,15 @@ export const WotwordContextProvider = ({children}) => {
       checkGuess.forEach((cell, index) => {
         setTimeout(() => {
           curGuess[index] = {...cell}
+          setKeyState(prev => {
+            const curState = JSON.parse(JSON.stringify(prev))
+            const curKey = curState.find(s => s.letter === cell.guess)
+            if (cell.state > curKey.state) {
+              curKey.state = cell.state
+            }
+            return curState
+          })
+
           setGuesses(prev => {
             prev.map((row, index) =>
               index !== currentGuess - 1
@@ -195,6 +312,7 @@ export const WotwordContextProvider = ({children}) => {
         currentGuess,
         currentCell,
         message,
+        keyState,
         keyPressed,
         setMessage,
       }}

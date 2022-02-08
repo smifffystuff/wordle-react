@@ -1,9 +1,10 @@
-import {useContext} from 'react'
+import {useContext, useEffect} from 'react'
 import WotwordContext from '../context/wotword-context'
 import GuessCell from './GuessCell'
 
 const GameArea = () => {
   const {message, wotword} = useContext(WotwordContext)
+
   return (
     <>
       {message !== '' ? <div className="message">{message}</div> : null}
