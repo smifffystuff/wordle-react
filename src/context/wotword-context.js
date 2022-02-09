@@ -2,9 +2,9 @@ import {createContext, useState} from 'react'
 
 import {targetWords, dictionary} from '../data/words'
 
-const offsetFromDate = new Date(2022, 0, 1)
-const msOffset = Date.now() - offsetFromDate
-const dayOffset = msOffset / 1000 / 60 / 60 / 24
+// const offsetFromDate = new Date(2022, 0, 1)
+// const msOffset = Date.now() - offsetFromDate
+// const dayOffset = msOffset / 1000 / 60 / 60 / 24
 
 const initialState = {
   wotword:
@@ -167,7 +167,7 @@ const initialState = {
 const WotwordContext = createContext(initialState)
 
 export const WotwordContextProvider = ({children}) => {
-  const [wotword, setWotword] = useState(initialState.wotword)
+  const [wotword] = useState(initialState.wotword)
   const [guesses, setGuesses] = useState(initialState.guesses)
   const [currentGuess, setCurrentGuess] = useState(initialState.currentGuess)
   const [currentCell, setCurrentCell] = useState(initialState.currentCell)
@@ -175,7 +175,7 @@ export const WotwordContextProvider = ({children}) => {
   const [keyState, setKeyState] = useState(initialState.keyState)
   const [gameOn, setGameOn] = useState(true)
 
-  // console.log(wotword)
+  console.log(wotword)
   // useEffect(() => {
   //   setWotword('elder')
   // }, [])
@@ -266,7 +266,7 @@ export const WotwordContextProvider = ({children}) => {
         }, 400 * index)
       })
 
-      if (currentGuess == 6 && gameOn) {
+      if (currentGuess === 6 && gameOn) {
         setMessage(`You failed to guess ${wotword}`)
         setGameOn(false)
       }
